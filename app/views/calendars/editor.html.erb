@@ -1,0 +1,43 @@
+<% content_for :title, @calendar.title.presence || "カレンダー編集" %>
+
+<div
+  class="editor-app"
+  data-controller="editor"
+  data-turbo-cache="false"
+>
+  <script type="application/json" id="editor-bootstrap">
+    <%= json_escape({
+      calendar: @calendar.as_editor_json,
+      tags: @tags.as_json,
+      holidays: @holidays,
+      routes: {
+        calendars: calendars_path,
+        calendar: @calendar.persisted? ? calendar_path(@calendar) : nil,
+        tags: tags_path,
+        holidays: holidays_path,
+        index: calendars_path
+      }
+    }.to_json).html_safe %>
+  </script>
+
+  <header class="topbar">
+    <a href="<%= calendars_path %>" class="brand">大会カレンダー</a>
+    <div class="topbar-status" data-editor-target="status">読み込み中</div>
+    <div class="topbar-actions">
+      <button type="button" class="btn btn-ghost" data-action="editor#save">保存</button>
+      <button type="button" class="btn btn-primary" data-action="editor#exportPng">PNG書き出し</button>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <aside class="sidebar" data-editor-target="sidebar"></aside>
+    <main class="stage">
+      <div class="weekday-hint" aria-hidden="true">
+        <span class="is-sun">日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span class="is-sat">土</span>
+      </div>
+      <div class="preview-frame">
+        <div class="cal" data-editor-target="preview"></div>
+      </div>
+    </main>
+  </div>
+</div>

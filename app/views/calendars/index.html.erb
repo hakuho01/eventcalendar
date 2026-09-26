@@ -1,0 +1,44 @@
+<% content_for :title, "カレンダー一覧" %>
+
+<div class="list-page">
+  <header class="list-hero">
+    <div>
+      <p class="list-kicker">Event Calendar Maker</p>
+      <h1>大会カレンダー</h1>
+      <p class="list-lead">月を選んで作成し、途中保存したカレンダーをあとから開き直せます。</p>
+    </div>
+    <%= form_with url: new_calendar_path, method: :get, local: true, data: { turbo: false }, class: "new-cal-form" do %>
+      <label>
+        作成する月
+        <input type="month" name="month" value="<%= Date.current.strftime("%Y-%m") %>" required>
+      </label>
+      <button type="submit" class="btn btn-primary">新規作成</button>
+    <% end %>
+  </header>
+
+  <% if notice.present? %>
+    <p class="flash"><%= notice %></p>
+  <% end %>
+
+  <% if @calendars.empty? %>
+    <div class="empty-card">
+      <p>まだカレンダーがありません。上のフォームから最初の1件を作ってください。</p>
+    </div>
+  <% else %>
+    <ul class="cal-cards">
+      <% @calendars.each do |calendar| %>
+        <li class="cal-card">
+          <%= link_to calendar_path(calendar), class: "cal-card-main" do %>
+            <span class="cal-card-month"><%= calendar.year %>年<%= calendar.month %>月</span>
+            <strong><%= calendar.title.presence || "無題" %></strong>
+            <span class="cal-card-meta">更新 <%= l(calendar.updated_at, format: :short) %></span>
+          <% end %>
+          <div class="cal-card-actions">
+            <%= button_to "複製", duplicate_calendar_path(calendar), method: :post, class: "btn btn-ghost" %>
+            <%= button_to "削除", calendar_path(calendar), method: :delete, class: "btn btn-danger-ghost", form: { data: { turbo_confirm: "このカレンダーを削除しますか？" } } %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

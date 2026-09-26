@@ -1,0 +1,22 @@
+ja:
+  date:
+    formats:
+      default: "%Y/%m/%d"
+      short: "%m/%d"
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M"
+      short: "%m/%d %H:%M"
+  activerecord:
+    models:
+      calendar: カレンダー
+      tag: タグ
+    attributes:
+      calendar:
+        title: タイトル
+        year: 年
+        month: 月
+      tag:
+        name: 名前
+        bg_color: 背景色
+        text_color: 文字色
