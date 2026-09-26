@@ -42,7 +42,7 @@ http://localhost:3000 を開きます。
 | `APP_USERNAME` | 任意。Basic認証のユーザー名（未設定時は `admin`） |
 | `APP_PASSWORD` | 任意。設定すると画面全体がBasic認証付きになります |
 
-4. Dockerfile でビルドされます。起動時に `db:prepare` が走ります
+4. Dockerfile でビルドされます。起動時に `db:prepare` が走ります。Railway の Start Command は空のままにしてください（Puma が `$PORT` を待ち受けます）
 5. 初回はタグ初期データを入れるため、Railway のコンソールで `bin/rails db:seed` を一度実行するか、エディタを開いた時点でデフォルトタグが自動作成されます
 
 カスタムドメインを使う場合、必要なら `RAILS_ALLOWED_HOSTS` にホスト名をカンマ区切りで入れてください。未設定ならホスト制限は無効です。
